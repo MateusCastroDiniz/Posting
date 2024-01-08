@@ -1,9 +1,15 @@
 from django.http import HttpResponse
 from django.views import generic
+from core.Posting.models import Post
 
-class PostView(generic.View):
-    def get(self, request, *args, **kwargs):
-        return HttpResponse('<div style="font-family: Sans-Serif, Verdana; width:100%; '
-                            'height: 100%; display:flex; align-items:center; flex-direction: column;'
-                            'justify-content: center"><h1 style="color:green">Hello World!</h1>'
-                            '<p style="color:green; font-size:20px">Página tá vivaaaa!!!</p></div>')
+
+class PostView(generic.ListView):
+    queryset = Post.objects.filter(status=1).order_by('-created_on')
+    template_name = 'index.html'
+
+
+class PostDetail(generic.DetailView):
+    model = Post
+    template_name = 'post_detail.html'
+
+
